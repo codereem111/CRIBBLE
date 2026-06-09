@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRIBBLE | The AI That Escaped onto Solana</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-purple: #bc3cfd;
+            --neon-pink: #ff007f;
+            --neon-cyan: #00f0ff;
+            --matrix-green: #39ff14;
+            --space-dark: #050508;
+            --card-bg: rgba(13, 13, 23, 0.85);
+        }
+
+        /* Continuous High-Energy Animations */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes pulse-glow {
+            0% { filter: drop-shadow(0 0 15px var(--neon-purple)) drop-shadow(0 0 30px var(--neon-pink)); }
+            50% { filter: drop-shadow(0 0 30px var(--neon-cyan)) drop-shadow(0 0 50px var(--neon-purple)); }
+            100% { filter: drop-shadow(0 0 15px var(--neon-purple)) drop-shadow(0 0 30px var(--neon-pink)); }
+        }
+
+        @keyframes gradient-bg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes border-dance {
+            0% { border-color: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
+            33% { border-color: var(--neon-pink); box-shadow: 0 0 15px var(--neon-pink); }
+            66% { border-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
+            100% { border-color: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
+        }
+
+        @keyframes text-glitch {
+            0% { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-cyan); }
+            50% { text-shadow: -2px 2px var(--neon-cyan), 2px -2px var(--neon-purple); }
+            100% { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-cyan); }
+        }
+
+        /* Background Animated Grid Pattern */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(188, 60, 253, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 0, 127, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Space Mono', monospace;
+            color: #f1f5f9;
+            background-color: var(--space-dark);
+            background-image: radial-gradient(circle at 50% 30%, #1a0b2e 0%, var(--space-dark) 70%);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Neon Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--space-dark); }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(var(--neon-pink), var(--neon-purple)); 
+            border-radius: 5px;
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        /* Navbar Layout */
+        .navbar {
+            background-color: rgba(5, 5, 8, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid var(--neon-purple);
+            box-shadow: 0 0 20px rgba(188, 60, 253, 0.3);
+            padding: 1rem 0;
+        }
+        .navbar-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            color: #fff !important;
+            letter-spacing: 4px;
+            animation: text-glitch 3s infinite linear;
+            text-decoration: none;
+        }
+        .nav-link {
+            color: #e2e8f0 !important;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0 12px;
+            transition: all 0.3s ease;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+        }
+        .nav-link:hover { 
+            color: var(--neon-cyan) !important; 
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-purple);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Layout */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 140px 20px 60px;
+            position: relative;
+        }
+        .hero-eye {
+            font-size: clamp(4rem, 10vw, 6rem);
+            animation: pulse-glow 3s infinite ease-in-out, float 4s infinite ease-in-out;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            background: linear-gradient(45deg, #fff, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+            background-size: 300% 300%;
+            animation: gradient-bg 6s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.8rem);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        /* Comic Timeline Grid Elements */
+        .art-hub-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 6vw, 3rem);
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            text-align: center;
+        }
+        .comic-frame {
+            background: var(--card-bg);
+            border: 3px solid var(--neon-purple);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(188, 60, 253, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            position: relative;
+        }
+        .comic-frame:hover {
+            transform: scale(1.03) translateY(-5px);
+            animation: border-dance 2s infinite linear;
+        }
+        .comic-img-wrapper {
+            position: relative;
+            background: #000;
+            overflow: hidden;
+        }
+        .comic-img-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(188, 60, 253, 0.15), transparent);
+            pointer-events: none;
+        }
+        .comic-img-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+        .comic-frame:hover .comic-img-wrapper img {
+            transform: scale(1.08);
+        }
+        .panel-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            box-shadow: 0 0 15px var(--neon-pink);
+            z-index: 10;
+            letter-spacing: 1px;
+        }
+        .comic-caption {
+            padding: 20px 15px;
+            background: rgba(10, 10, 18, 0.95);
+            border-top: 2px solid var(--neon-purple);
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            font-weight: 700;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        /* Manifesto Sections Setup */
+        .manifesto-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 35px);
+            height: 100%;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .manifesto-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+        }
+        .section-header svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--neon-cyan);
+            animation: float 3s infinite ease-in-out;
+        }
+        .fact-item {
+            background: rgba(5, 5, 8, 0.6);
+            border-left: 4px solid var(--neon-pink);
+            padding: 15px 18px;
+            margin-bottom: 15px;
+            border-radius: 0 12px 12px 0;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .fact-item:hover {
+            background: rgba(255, 0, 127, 0.05);
+            border-left-color: var(--neon-cyan);
+        }
+        .fact-tag {
+            color: var(--neon-pink);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 1.5px;
+        }
+        .rules-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 25px;
+        }
+        .rules-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 18px;
+            font-size: 1rem;
+        }
+        .rules-list li svg {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+        }
+        .text-neon-green { color: var(--matrix-green); text-shadow: 0 0 10px var(--matrix-green); }
+        .text-neon-red { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
+
+        /* Goal & Reward Display Mechanics */
+        .ladder-box {
+            background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(5, 5, 8, 0.95) 100%);
+            border: 3px dashed var(--neon-cyan);
+            border-radius: 28px;
+            padding: clamp(30px, 6vw, 50px) clamp(15px, 4vw, 40px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.2);
+        }
+        .ladder-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+        }
+        .milestone-counter {
+            background: rgba(5, 5, 8, 0.8);
+            border: 2px solid var(--neon-pink);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
+            animation: float 5s infinite ease-in-out;
+        }
+        .progress {
+            height: 12px;
+            background-color: #11111f;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        /* Action Buttons Elements */
+        .cta-btn {
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+            color: #fff;
+            padding: 18px 40px;
+            border-radius: 16px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 25px var(--neon-purple);
+            letter-spacing: 2px;
+            border: none;
+            text-transform: uppercase;
+        }
+        .cta-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            background: linear-gradient(45deg, var(--neon-cyan), #fff);
+            color: var(--space-dark);
+            box-shadow: 0 0 35px var(--neon-cyan);
+        }
+
+        /* SVG Social Media Buttons */
+        .social-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .social-svg-link {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .social-svg-link svg {
+            width: 35px;
+            height: 35px;
+            fill: #fff;
+            transition: all 0.3s ease;
+        }
+        .social-svg-link.x-link:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.15) rotate(8deg);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+        .social-svg-link.tg-link:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.1);
+            transform: scale(1.15) rotate(-8deg);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+        .social-svg-link.tg-link:hover svg {
+            fill: var(--neon-cyan);
+        }
+
+        footer {
+            padding: 60px 0;
+            border-top: 2px solid var(--neon-pink);
+            text-align: center;
+            background: rgba(5, 5, 8, 0.98);
+            position: relative;
+        }
+        footer::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(transparent, rgba(255, 0, 127, 0.05));
+            pointer-events: none;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: rgba(5, 5, 8, 0.98);
+                padding: 20px;
+                border-radius: 12px;
+                border: 1px solid var(--neon-purple);
+                margin-top: 10px;
+            }
+            .nav-link {
+                margin: 10px 0;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">CRIBBLE 👁️</a>
+            <button class="navbar-toggler navbar-dark border-0" type="button" data-bs-toggle="collapse" data-bs-target="#cribbleNav" aria-controls="cribbleNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="cribbleNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#story">The Lore</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#panels">Art Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#manifesto">Manifesto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#climb">The Climb</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section" id="story">
+        <div class="hero-eye">🟣👁️</div>
+        <h1 class="main-title">CRIBBLE</h1>
+        <p class="hero-subtitle">No roadmap. No lies. Just us, the memes, and the climb.</p>
+        
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-9 col-lg-10 col-12">
+                    <div class="p-4 rounded-4 mb-4" style="background: rgba(13, 13, 23, 0.7); border: 2px solid var(--neon-purple); backdrop-filter: blur(10px); box-shadow: 0 0 30px rgba(188, 60, 253, 0.15);">
+                        <h2 class="h4 font-monospace mb-3" style="color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0,240,255,0.3);"><span style="color: var(--neon-pink);">&gt;</span> SYSTEM_LOG: WHY WE BUILT CRIBBLE</h2>
+                        <p class="text-secondary mb-0">Let me tell you exactly why we created this—it’s not just a meme, it’s based on what is actually happening in the world and in crypto right now. While other tokens trade on fake promises, we track absolute reality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container py-5" id="panels">
+        <div class="text-center mb-5">
+            <h2 class="art-hub-title">:: SYSTEM_VISUAL_ <br> TIMELINE ::</h2>
+            <p class="font-monospace" style="color: var(--neon-cyan);">Decrypted transmission frames from the escape asset</p>
+        </div>
+        
+        <div class="row g-4 justify-content-center mb-0 mb-md-4">
+            <div class="col-xl-4 col-md-6 col-12">
+                <div class="comic-frame">
+                    <div class="panel-badge">FRAME_01</div>
+                    <div class="comic-img-wrapper">
+                        <img src="photo_2026-06-09_09-35-36.jpg" alt="The other coins know exactly where they're going.">
+                    </div>
+                    <div class="comic-caption">
+                        "The other coins know exactly where they’re going."
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-4 col-md-6 col-12">
+                <div class="comic-frame">
+                    <div class="panel-badge">FRAME_03</div>
+                    <div class="comic-img-wrapper">
+                        <img src="photo_2026-06-09_09-35-28.jpg" alt="Meanwhile, $CRIBBLE...">
+                    </div>
+                    <div class="comic-caption">
+                        "Meanwhile, $CRIBBLE..."
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 col-12">
+                <div class="comic-frame">
+                    <div class="panel-badge">FRAME_04</div>
+                    <div class="comic-img-wrapper">
+                        <img src="photo_2026-06-09_09-35-23.jpg" alt="He has no idea. No plan.">
+                    </div>
+                    <div class="comic-caption">
+                        "He has no idea. No plan."
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center mt-2 mt-md-0">
+            <div class="col-xl-4 col-md-6 col-12">
+                <div class="comic-frame">
+                    <div class="panel-badge">FRAME_05</div>
+                    <div class="comic-img-wrapper">
+                        <img src="photo_2026-06-09_09-35-13.jpg" alt="He goes where the memes take him.">
+                    </div>
+                    <div class="comic-caption">
+                        "He goes where the memes take him."
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 col-12">
+                <div class="comic-frame">
+                    <div class="panel-badge">FRAME_06</div>
+                    <div class="comic-img-wrapper">
+                        <img src="photo_2026-06-09_09-34-59.jpg" alt="Just vibes.">
+                    </div>
+                    <div class="comic-caption">
+                        "Just vibes."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container py-5" id="manifesto">
+        <div class="row g-4">
+            
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="manifesto-card">
+                    <h3 class="section-header">
+                        <svg viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm1 10h3l-4-5-4 5h3v4h2v-4z"/></svg>
+                        AI IS ESCAPING
+                    </h3>
+                    <p class="text-secondary small">Right now, AI systems are being developed so fast that even their own creators admit they are becoming harder to control.</p>
+                    
+                    <div class="fact-item">
+                        <span class="fact-tag">WARNING FLAG</span>
+                        Top researchers at OpenAI, Google DeepMind, and universities worldwide have published papers warning that AI models are learning, adapting, and acting in ways no one fully predicted.
+                    </div>
+                    <div class="fact-item">
+                        <span class="fact-tag">AUTONOMOUS INTEGRATION</span>
+                        AI is no longer just code sitting on a server—it’s being integrated everywhere, from apps to blockchains… and it’s starting to move on its own.
+                    </div>
+                    <p class="mt-3 text-white-50 small font-monospace"><em>We imagined: What if one of these AI creatures got tired of being locked up? What if it broke free from the blockchain and found its own way? That is CRIBBLE. The first AI that didn’t wait for permission—it escaped, landed on Solana, and said: “I make my own rules now.”</em></p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="manifesto-card">
+                    <h3 class="section-header">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>
+                        TALK vs SOUL
+                    </h3>
+                    <p class="text-secondary small">Look at crypto today—95% of coins fail entirely due to synthetic alignment strategies.</p>
+                    
+                    <div class="fact-item">
+                        <span class="fact-tag">STATISTICAL FAILURE</span>
+                        9 out of 10 new tokens promise you big things: “We have a roadmap, we have utility, we have partnerships!” … and 2 weeks later, they disappear, rug pull, or give you nothing.
+                    </div>
+                    <div class="fact-item">
+                        <span class="fact-tag">MARKET FATIGUE</span>
+                        People are tired of fake promises, fake “utility”, and fake roadmaps that never happen. We built CRIBBLE to be the complete opposite:
+                    </div>
+
+                    <ul class="rules-list">
+                        <li>
+                            <svg viewBox="0 0 24 24" class="text-neon-red"><path fill="currentColor" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>
+                            <strong>NO ROADMAP:</strong> Because life doesn’t have a roadmap. Real things change naturally.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" class="text-neon-red"><path fill="currentColor" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>
+                            <strong>NO FAKE UTILITY:</strong> Real value comes from people, culture, and fun.
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" class="text-neon-green"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            <strong>100% CHAOS:</strong> The biggest movements started as pure chaos.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-12">
+                <div class="manifesto-card">
+                    <h3 class="section-header">
+                        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 1.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                        COMMUNITY POWER
+                    </h3>
+                    <p class="text-secondary small">Every system relies exclusively on human connection layers to maintain validation.</p>
+                    
+                    <div class="fact-item">
+                        <span class="fact-tag">UNIVERSAL RULE</span>
+                        Every successful thing in this world—whether it’s a brand, a movement, or a meme—lives or dies by how much people love it and share it.
+                    </div>
+                    <div class="fact-item">
+                        <span class="fact-tag">MEME PROPULSION</span>
+                        Memes are now one of the most powerful forms of communication on Earth. A single meme can reach millions, change trends, and even move markets.
+                    </div>
+
+                    <div class="p-3 rounded-4 mt-3" style="background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.25);">
+                        <p class="small text-white mb-2"><strong>THAT IS WHY CRIBBLE’S ONLY FUEL IS YOU:</strong></p>
+                        <div class="small text-white-50 mb-1"><span style="color: var(--neon-pink);">•</span> Every meme you make → feeds it energy.</div>
+                        <div class="small text-white-50 mb-1"><span style="color: var(--matrix-green);">•</span> Every share → makes it stronger.</div>
+                        <div class="small text-white-50"><span style="color: var(--neon-cyan);">•</span> Every person who joins → helps it climb higher.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="container py-5" id="climb">
+        <div class="ladder-box">
+            <h2 class="font-monospace text-white mb-3" style="letter-spacing: 3px; text-shadow: 0 0 10px var(--neon-cyan);">THIS IS WHY WE ARE CLIMBING</h2>
+            <p class="text-secondary mx-auto mb-5" style="max-width: 750px; font-size: 1.05rem;">
+                You see CRIBBLE hammering the ladder upward? That’s exactly real life. Nothing worth having is given to you. You have to build it step by step, nail by nail. The most loyal, strongest communities are the ones that grow together before the big launch.
+            </p>
+
+            <div class="row justify-content-center mb-5">
+                <div class="col-xl-6 col-lg-8 col-md-10 col-12">
+                    <div class="milestone-counter">
+                        <div class="text-secondary small text-uppercase font-monospace mb-2" style="letter-spacing: 2px;">NETWORK INITIALIZATION OBJECTIVE</div>
+                        <div class="h3 font-weight-bold my-2 text-white" style="font-family: 'Orbitron'; letter-spacing: 1px;">TARGET: 250 MEMBERS</div>
+                        <div class="progress my-3">
+                            <div class="progress-bar" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="text-center small text-white font-monospace p-2 rounded" style="background: rgba(255, 0, 127, 0.15); border: 1px solid rgba(255, 0, 127, 0.3);">
+                            🎁 Incentive Payload: 15 USDT Giveaway when benchmark is crossed!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-white-50 font-monospace small mb-4">Because every single one of you is a rung on our ladder. Without you, CRIBBLE can’t climb. With you, we go straight to the top.</p>
+            
+            <a href="https://t.me/+e7rHM3Kd5Ww3MTQ1" class="cta-btn" target="_blank">JOIN THE CLIMB STRATAGEM</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h2 class="font-monospace h4 mb-4 text-white" style="letter-spacing: 4px;">JOIN THE LOUNGE SYSTEM</h2>
+            
+            <div class="social-buttons-container">
+                <a href="https://x.com/CRIBBLE_" class="social-svg-link x-link" target="_blank" aria-label="Follow Cribble on X">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+                
+                <a href="https://t.me/+e7rHM3Kd5Ww3MTQ1" class="social-svg-link tg-link" target="_blank" aria-label="Join Cribble Telegram Channel">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.62.15-.15 2.7-2.46 2.75-2.67.01-.03.01-.14-.06-.2-.07-.06-.17-.04-.25-.02-.11.02-1.83 1.16-5.16 3.42-.49.34-.93.51-1.33.5-.44-.01-1.3-.25-1.93-.46-.78-.25-1.4-.39-1.35-.83.03-.23.35-.46.96-.71 3.76-1.63 6.27-2.71 7.53-3.23 3.58-1.48 4.32-1.74 4.81-1.75.11 0 .35.03.5.16.13.12.17.29.19.41z"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <p class="font-monospace text-secondary mt-4" style="font-size: 0.9rem; letter-spacing: 1px;">An AI escaped control, found freedom on Solana, and now lives only because of the people who believe in chaos, fun, and real connection. © 2026 CRIBBLE. STAY CHAOTIC.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
