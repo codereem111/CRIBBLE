@@ -348,6 +348,72 @@
         .text-neon-green { color: var(--matrix-green); font-weight: bold; }
         .text-neon-red { color: #ff3366; font-weight: bold; }
 
+        /* Donation Hub Advanced Component Elements */
+        .donation-box {
+            background: var(--dark-glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 3px solid var(--cyber-pink);
+            border-radius: 30px;
+            padding: clamp(25px, 5vw, 45px);
+            position: relative;
+            box-shadow: 0 20px 45px rgba(217, 70, 239, 0.15);
+        }
+        .crypto-address-wrapper {
+            background: #05030d;
+            border: 2px solid var(--cyber-violet);
+            border-radius: 14px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+        .crypto-address-wrapper:hover {
+            border-color: var(--cyber-pink);
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.3);
+        }
+        .wallet-string {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            color: var(--text-light);
+            font-size: clamp(0.75rem, 2vw, 1.05rem);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .copy-trigger-btn {
+            background: linear-gradient(135deg, var(--cyber-pink), var(--cyber-violet));
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .copy-trigger-btn:hover {
+            transform: scale(1.04);
+            filter: brightness(1.1);
+        }
+        .network-node-pill {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--neon-cyan);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
         /* Tokenomics White Glass Hybrid Module */
         .tokenomics-wrapper-section {
             position: relative;
@@ -591,6 +657,7 @@
                     <li class="nav-item"><a class="nav-link" href="#manifesto">Manifesto</a></li>
                     <li class="nav-item"><a class="nav-link" href="#memes">Meme Central</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tokenomics">Tokenomics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#donation-hub">Donation Hub</a></li>
                     <li class="nav-item"><a class="nav-link" href="#climb">The Climb</a></li>
                 </ul>
             </div>
@@ -951,6 +1018,62 @@
         </div>
     </section>
 
+    <section class="container py-5" id="donation-hub">
+        <div class="text-center mb-5">
+            <h2 class="art-hub-title">:: DECENTRALIZED DONATION HUB ::</h2>
+            <p class="font-monospace fw-bold" style="color: var(--text-muted-cyber);">Fuel our team cyber operational frameworks directly</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-10 col-12">
+                <div class="donation-box">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-7 col-12">
+                            <h3 class="font-monospace mb-3 h4" style="color: var(--text-light); font-weight: 900; letter-spacing: 1px;">
+                                <span style="color: var(--cyber-pink);">&gt;</span> COGNITIVE_BOOST_FUND
+                            </h3>
+                            <p class="small fw-bold mb-4" style="color: var(--text-muted-cyber); line-height: 1.7;">
+                                Want to feed the cyber development framework? Drop your surplus energy or token balances directly to our community deployment matrix address below. 100% used for ecosystem scaling, speedier assets, and chaotic web optimization.
+                            </p>
+                            
+                            <div class="mb-2">
+                                <span class="network-node-pill mb-2">NETWORK: SOLANA MAINNET</span>
+                            </div>
+
+                            <div class="crypto-address-wrapper">
+                                <span class="wallet-string" id="targetWallet">nEm7VwKyWNYRAvyZWdsQ1hN6eQNQboB53WBUneFqYFmWw</span>
+                                <button class="copy-trigger-btn" id="copyWalletBtn" onclick="invokeSecureCopy()">COPY</button>
+                            </div>
+                            <div class="small font-monospace mt-2 text-neon-green" id="copyStatusText" style="opacity: 0; transition: opacity 0.3s ease;">
+                                &gt;&gt; COPIED TO SYSTEM CLIPBOARD!
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 col-12">
+                            <div class="p-4 rounded-4" style="background: #05030d; border: 2px dashed var(--cyber-pink);">
+                                <div class="font-monospace small mb-3 text-uppercase text-center fw-bold" style="color: var(--neon-cyan); letter-spacing: 1px;">
+                                    [ TRANSMISSION COMPATIBILITY ]
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2" style="border-color: rgba(217,70,239,0.1) !important;">
+                                    <span class="small font-monospace fw-bold" style="color: var(--text-muted-cyber);">SOL (Solana)</span>
+                                    <span class="small font-monospace text-neon-green fw-bold">ONLINE</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2" style="border-color: rgba(217,70,239,0.1) !important;">
+                                    <span class="small font-monospace fw-bold" style="color: var(--text-muted-cyber);">$CRIB Token</span>
+                                    <span class="small font-monospace text-neon-green fw-bold">ONLINE</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between pb-1">
+                                    <span class="small font-monospace fw-bold" style="color: var(--text-muted-cyber);">USDC / USDT</span>
+                                    <span class="small font-monospace text-neon-green fw-bold">ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="container py-5" id="climb">
         <div class="ladder-box">
             <h2 class="font-monospace text-light mb-3" style="letter-spacing: 3px; font-weight: 900;">THIS IS WHY WE ARE CLIMBING</h2>
@@ -1001,6 +1124,27 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bundle.min.js"></script>
+    <script>
+        function invokeSecureCopy() {
+            var addressText = document.getElementById("targetWallet").innerText;
+            navigator.clipboard.writeText(addressText).then(function() {
+                var statusText = document.getElementById("copyStatusText");
+                var actionBtn = document.getElementById("copyWalletBtn");
+                
+                statusText.style.opacity = "1";
+                actionBtn.innerText = "COPIED!";
+                actionBtn.style.background = "linear-gradient(135deg, var(--matrix-green), #00aa44)";
+                
+                setTimeout(function() {
+                    statusText.style.opacity = "0";
+                    actionBtn.innerText = "COPY";
+                    actionBtn.style.background = "linear-gradient(135deg, var(--cyber-pink), var(--cyber-violet))";
+                }, 2500);
+            }).catch(function(err) {
+                console.error('Could not copy wallet address: ', err);
+            });
+        }
+    </script>
 </body>
 </html>
